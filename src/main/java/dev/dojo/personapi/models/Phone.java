@@ -1,6 +1,12 @@
 package dev.dojo.personapi.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import dev.dojo.personapi.models.enumerators.PhoneTypeEnum;
@@ -14,7 +20,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Phone")
 public class Phone {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private PhoneTypeEnum phoneType;
+
+    @Column(nullable = false)
     private String number;
 }
