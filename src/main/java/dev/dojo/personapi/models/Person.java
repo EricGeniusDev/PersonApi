@@ -1,6 +1,5 @@
 package dev.dojo.personapi.models;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,7 +37,7 @@ public class Person {
     private String cpf;
 
     @Column(nullable = false)
-    private LocalDate startDate;
+    private String birthDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,

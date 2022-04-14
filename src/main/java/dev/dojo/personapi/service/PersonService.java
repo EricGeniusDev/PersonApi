@@ -2,6 +2,7 @@ package dev.dojo.personapi.service;
 
 import java.util.List;
 
+import dev.dojo.personapi.dto.request.PersonDto;
 import dev.dojo.personapi.models.Person;
 
 public interface PersonService {
@@ -10,7 +11,7 @@ public interface PersonService {
 
     Person findPersonById(Long id);
 
-    void savePerson(Person person);
+    Person savePerson(PersonDto person);
 
-    void updatePerson(Person person);
+    Person updatePerson(Long id, PersonDto person);
 }

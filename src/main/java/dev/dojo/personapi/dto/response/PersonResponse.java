@@ -1,4 +1,4 @@
-package dev.dojo.personapi.dto;
+package dev.dojo.personapi.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
