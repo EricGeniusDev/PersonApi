@@ -14,4 +14,6 @@ public interface PersonService {
     Person savePerson(PersonDto person);
 
     Person updatePerson(Long id, PersonDto person);
+
+    void delete(Long id);
 }

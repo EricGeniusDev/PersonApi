@@ -27,8 +27,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person findPersonById(Long id) {
-        return personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
+        return findPerson(id);
     }
 
     @Override
@@ -49,6 +48,17 @@ public class PersonServiceImpl implements PersonService {
                     p.setPhones(person.getPhones());
                     return personRepository.save(p);
                 })
+                .orElseThrow(() -> new PersonNotFoundException(id));
+    }
+
+    @Override
+    public void delete(Long id) {
+        var person = findPerson(id);
+        personRepository.delete(person);
+    }
+
+    private Person findPerson(Long id) {
+        return personRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
     }
 

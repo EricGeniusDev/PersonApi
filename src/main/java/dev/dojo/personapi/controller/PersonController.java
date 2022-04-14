@@ -7,12 +7,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.dojo.personapi.dto.request.PersonDto;
@@ -45,9 +47,15 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonResponse> updatePerson(@PathVariable("id") Long id,
-            @RequestBody PersonDto personDto) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePerson(@PathVariable("id") Long id,
+            @RequestBody @Valid PersonDto personDto) {
         personService.updatePerson(id, personDto);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePerson(@PathVariable("id") Long id) {
+        personService.delete(id);
     }
 }
