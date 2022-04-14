@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.dojo.personapi.dto.request.PersonDto;
+import dev.dojo.personapi.exceptions.PersonNotFoundException;
 import dev.dojo.personapi.models.Person;
 import dev.dojo.personapi.repository.PersonRepository;
 import dev.dojo.personapi.service.PersonService;
@@ -27,7 +28,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findPersonById(Long id) {
         return personRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override
@@ -44,10 +45,11 @@ public class PersonServiceImpl implements PersonService {
                     p.setFirstName(person.getFirstName());
                     p.setLastName(person.getLastName());
                     p.setCpf(person.getCpf());
+                    p.setBirthDate(person.getBirthDate());
                     p.setPhones(person.getPhones());
                     return personRepository.save(p);
                 })
-                .orElseThrow();
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
 }
