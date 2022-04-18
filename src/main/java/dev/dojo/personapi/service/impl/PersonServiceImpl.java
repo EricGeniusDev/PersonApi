@@ -2,11 +2,12 @@ package dev.dojo.personapi.service.impl;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.dojo.personapi.dto.mapper.PersonMapper;
 import dev.dojo.personapi.dto.request.PersonDto;
+import dev.dojo.personapi.dto.response.PersonResponse;
 import dev.dojo.personapi.exceptions.PersonNotFoundException;
 import dev.dojo.personapi.models.Person;
 import dev.dojo.personapi.repository.PersonRepository;
@@ -16,9 +17,10 @@ import dev.dojo.personapi.service.PersonService;
 public class PersonServiceImpl implements PersonService {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonMapper personMapper;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private PersonRepository personRepository;
 
     @Override
     public List<Person> findAllPersons() {
@@ -31,15 +33,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person savePerson(PersonDto personDto) {
-        var person = modelMapper.map(personDto, Person.class);
-        return personRepository.save(person);
+    public PersonResponse savePerson(PersonDto personDto) {
+        var person = personMapper.toEntity(personDto);
+        person = personRepository.save(person);
+        return new PersonResponse().withMessage("Person created successfully with id " + person.getId());
     }
 
     @Override
-    public Person updatePerson(Long id, PersonDto personDto) {
-        var person = modelMapper.map(personDto, Person.class);
-        return personRepository.findById(id)
+    public void updatePerson(Long id, PersonDto personDto) {
+        var person = personMapper.toEntity(personDto);
+        personRepository.findById(id)
                 .map(p -> {
                     p.setFirstName(person.getFirstName());
                     p.setLastName(person.getLastName());
@@ -53,7 +56,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void delete(Long id) {
-        var person = findPerson(id);
+        Person person = findPerson(id);
         personRepository.delete(person);
     }
 

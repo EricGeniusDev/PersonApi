@@ -23,7 +23,7 @@ import dev.dojo.personapi.models.Person;
 import dev.dojo.personapi.service.PersonService;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/v1/people")
 public class PersonController {
 
     @Autowired
@@ -41,9 +41,8 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<PersonResponse> savePerson(@RequestBody @Valid PersonDto personDto) {
-        var p = personService.savePerson(personDto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new PersonResponse().withMessage("Person created successfully with id " + p.getId()));
+                .body(personService.savePerson(personDto));
     }
 
     @PutMapping("/{id}")

@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import dev.dojo.personapi.models.enumerators.PhoneTypeEnum;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "Phone")
+@Builder
 public class Phone {
 
     @Id
@@ -27,7 +29,7 @@ public class Phone {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PhoneTypeEnum phoneType;
+    private PhoneTypeEnum type;
 
     @Column(nullable = false)
     private String number;
